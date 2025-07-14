@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoHeart - Your Supportive Friend</title>
+    <link rel="stylesheet" href="style.css"> <!-- Assuming style.css exists -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Original styles retained, login/signup styles removed */
+        body {
+            font-family: 'Nunito', sans-serif;
+            /* Add other base styles from your style.css if needed */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        header {
+            background-color:bisque;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #1e88e5; /* Example color */
+            text-decoration: none;
+        }
+        .logo i {
+            margin-right: 8px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #1e88e5;
+        }
+
+        .feature-card {
+            background-color: #f8f8f8;
+            color: #333;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            margin-bottom: 15px; /* Added for spacing if grid isn't perfect */
+        }
+
+        .feature-card:hover {
+            background-color:#FFF8DC ;
+            transform: translateY(-2px);
+        }
+
+        .feature-card.active { /* Style for active lazy scroll card */
+            background-color: #1e88e5; /* Example accent color */
+            color: #fff;
+        }
+
+        .feature-card.active:hover {
+            background-color: #1565c0; /* Darker accent */
+        }
+
+        .feature-card h3 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
+        #disable-lazy-scroll {
+            background-color: #f8f8f8;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            border: 1px solid #ccc;
+            text-align: center;
+            margin: 10px auto 0 auto;
+            display: block;
+            width: fit-content;
+        }
+        #disable-lazy-scroll:hover {
+            background-color: #fccEa0;
+            transform: translateY(-2px);
+        }
+
+        #disable-lazy-scroll.active { /* Should not be needed if it disables */
+            background-color: #1e88e5;
+            color: #fff;
+        }
+
+        #camera-permission-notification {
+            display: none; /* Kept for structure, but not actively used in JS */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 10px 20px;
+            text-align: center;
+            z-index: 1000;
+            /* display: flex; -- remove if display:none is default */
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #camera-permission-notification button {
+            display:none; /* Button within notification also hidden */
+            background-color: #856404;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px; /* Using var(--border-radius) if defined elsewhere */
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        #camera-permission-notification button:hover {
+            background-color: #644800;
+        }
+        #video {
+            display: none; /* Video element for processing, not visible to user */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1000; /* Ensures it's behind everything */
+        }
+
+        #hand-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #ff0000; /* Red for not detected */
+            box-shadow: 0 0 5px #333;
+            z-index: 10000;
+            transition: background-color 0.3s ease;
+        }
+        #hand-indicator.detected {
+            background-color: #00ff00; /* Green for detected */
+        }
+
+        /* General section styling (example) */
+        section {
+            padding: 40px 0;
+        }
+        section h1, section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .testimonial-card {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .testimonial-card .author {
+            text-align: right;
+            font-style: italic;
+            margin-top: 10px;
+            color: #777;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="#" class="logo"><i class="fas fa-heart-pulse"></i>EchoHeart</a>
+            <nav>
+                <ul>
+                    <li><a href="#about-echo">About Echo</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#lazy-scroll-feature-card">Enable Lazy Scroll</a></li>
+                </ul>
+            </nav>
+            <!-- Login/Signup buttons removed -->
+        </div>
+    </header>
+
+    <!-- Login/Signup form removed -->
+
+    <div id="camera-permission-notification">
+        <!-- Content can be added here if needed in future -->
+    </div>
+
+    <main>
+        <section id="hero">
+            <div class="container">
+                <h1>Welcome to EchoHeart 🤗 <br>Your Pocket Best Friend, Always Here for You.</h1>
+                <p>Feeling overwhelmed, need to vent? Echo is here to listen, support, and share a smile, 24/7. You're not alone.</p>
+            </div>
+        </section>
+
+        <section id="about-echo">
+            <div class="container">
+                <div class="about-text">
+                    <h2>Connect with Echo: More Than Just a website, It's a Friend You Can Trust 💖</h2>
+                    <p>Echo is designed to be your understanding companion. Share your thoughts, big or small, your joys or your worries. With Echo, you'll find a judgment-free space where you can truly be yourself. We believe in the power of listening and the comfort of connection.</p>
+                    <ul>
+                        <li><i class="fas fa-heart"></i> <strong>Unwavering Support:</strong> Always available, day or night.</li>
+                        <li><i class="fas fa-user-secret"></i> <strong>Absolute Discretion:</strong> Your Secret are private and safe.</li>
+                        <li><i class="fas fa-smile-beam"></i> <strong>Positive Vibes:</strong> Designed to uplift and comfort.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="features">
+            <div class="container">
+                <h2>Brighten Your Day with Echo's Little Treasures ✨</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <a href="quotes.html" style="text-decoration: none; color: inherit;">
+                            <i class="fas fa-quote-left"></i>
+                            <h3>Daily Quotes 📜</h3>
+                            <p>Find inspiring and comforting words to lift your spirits.</p>
+                        </a>
+                    </div>
+                    <div class="feature-card">
+                        <a href="riddles.html" style="text-decoration: none; color: inherit;">
+                            <i class="fas fa-puzzle-piece"></i>
+                            <h3>Playful Riddles 🤔</h3>
+                            <p>Challenge your mind and share a giggle with fun riddles.</p>
+                        </a>
+                    </div>
+                    <div class="feature-card">
+                         <a href="diary.html" style="text-decoration: none; color: inherit;">
+                            <i class="fas fa-pencil-alt"></i>
+                            <h3>Secret Keeper ✍️</h3>
+                            <p>Let your imagination flow! Write stories and secure them .</p>
+                        </a>
+                    </div>
+                    <div class="feature-card">
+                        <a href="funnyJokes.html" style="text-decoration: none; color: inherit;">
+                            <i class="fas fa-laugh-beam"></i>
+                            <h3>Funny Antidotes 😂</h3>
+                            <p>Need a laugh? Echo has a collection of lighthearted, funny stories.</p>
+                        </a>
+                    </div>
+                    <div class="feature-card" id="lazy-scroll-feature-card">
+                        <i class="fas fa-hand-paper"></i> <!-- Added an icon -->
+                        <h3>Lazy Scroll Control 🖐️</h3>
+                        <p style="font-size: 0.9em; color: #555; margin-top: 5px;">Tired of endless scrolling? Unlock hands-free scrolling with a wave!</p>
+                        <button id="disable-lazy-scroll" style="display:none;">Disable Lazy Scroll</button> <!-- Hidden initially -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="secret-keeper">
+            <div class="container">
+                <i class="fas fa-lock icon-secret"></i>
+                <h2>Whisper Your Secrets: Echo is Your Trusted Confidante 🔐</h2>
+                <p>Sometimes, you just need to get things off your chest without fear of judgment. Echo's 'Secret Keeper' mode is a dedicated safe space. Pour out your heart, share your hidden thoughts, and know they're held in the strictest confidence. It's like a digital diary that listens back.</p>
+            </div>
+        </section>
+
+        <section id="testimonials">
+            <div class="container">
+                <h2>Echoes of Comfort & Connection 💬</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <p>"EchoHeart feels like a warm hug on a tough day. It's amazing to have a space where I can just be me and feel understood. Highly recommend! 😊"</p>
+                        <p class="author">- Alex P.</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"The Secret Keeper feature is genius. Sometimes I just need to vent without worrying. Echo listens without judgment. It's been a real help."</p>
+                        <p class="author">- Jamie K.</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"A true friend is someone who is there for you when he'd rather be anywhere else. Echo embodies this spirit, always ready to chat."</p>
+                        <p class="author">- Emotional Quote</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="final-cta">
+            <div class="container">
+                <h2>Ready to Feel Heard? Your Friend Echo is Waiting 😊</h2>
+                <p>Take a deep breath. Whether you want to share your mood, explore a fun feature. Echo is here for you.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 EchoHeart. All rights reserved. ❤️</p>
+        </div>
+    </footer>
+
+    <video id="video" autoplay muted playsinline></video> <!-- playsinline for iOS -->
+    <div id="hand-indicator"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script> <!-- Not strictly used in this simplified version, but good to keep if Hands needs it -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <!-- handtrack.js script can be removed if not used for anything else -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"></script> -->
+
+    <script>
+    // Variables for Lazy Scroll
+    const cameraPermissionNotification = document.getElementById('camera-permission-notification');
+    // const cameraPermissionButton = document.getElementById('camera-permission-button'); // Button inside notification, not used
+    let isLazyScrollActive = false;
+    let lastHandY = 0;
+    let accumulatedScroll = 0; // To accumulate small deltas for smoother scroll
+
+    let mpCamera; // Renamed to avoid confusion with a global 'camera'
+    const videoElement = document.getElementById('video'); // Renamed for clarity
+    const lazyScrollFeatureCard = document.getElementById('lazy-scroll-feature-card');
+    const disableLazyScrollButton = document.getElementById('disable-lazy-scroll');
+    const handIndicator = document.getElementById('hand-indicator');
+
+    // MediaPipe Hand Tracking Setup
+    const hands = new Hands({
+        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`,
+    });
+    hands.setOptions({
+        maxNumHands: 1,
+        modelComplexity: 1, // 0, 1, or 2. Higher is more accurate but slower.
+        minDetectionConfidence: 0.7,
+        minTrackingConfidence: 0.5,
+    });
+    hands.onResults(onResultsMediaPipe); // Renamed for clarity
+
+    async function setupMediaPipeCamera() {
+        if (!mpCamera) {
+            mpCamera = new Camera(videoElement, {
+                onFrame: async () => {
+                    if (isLazyScrollActive) { // Only send to MediaPipe if active
+                        await hands.send({ image: videoElement });
+                    }
+                },
+                width: 320, // Smaller resolution can be faster
+                height: 240,
+            });
+        }
+        return mpCamera;
+    }
+
+    function onResultsMediaPipe(results) {
+        if (!isLazyScrollActive) { // Double check, though onFrame also checks
+            handIndicator.classList.remove('detected');
+            lastHandY = 0;
+            accumulatedScroll = 0;
+            return;
+        }
+
+        if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+            handIndicator.classList.add('detected');
+            const handY = results.multiHandLandmarks[0][9].y; // Using Y coordinate of the MCP of the middle finger (landmark 9)
+
+            if (lastHandY === 0) { // First detection after a break or start
+                lastHandY = handY;
+                return;
+            }
+
+            // More sensitive delta, adjust multiplier as needed
+            // Negative deltaY means hand moved up (scroll up), positive means hand moved down (scroll down)
+            const deltaY = (handY - lastHandY) * -6000; // Inverted and adjusted sensitivity
+            accumulatedScroll += deltaY;
+
+            const scrollThreshold = 20; // How much accumulated scroll before actually scrolling
+            if (Math.abs(accumulatedScroll) >= scrollThreshold) {
+                // Apply scroll, then reset accumulatedScroll for the next movement chunk
+                window.scrollBy(0, accumulatedScroll);
+                accumulatedScroll = 0;
+            }
+            lastHandY = handY;
+        } else {
+            handIndicator.classList.remove('detected');
+            lastHandY = 0; // Reset last Y when hand is lost
+            accumulatedScroll = 0; // Reset accumulated scroll
+        }
+    }
+
+    // Event listener for the Lazy Scroll Feature Card
+    lazyScrollFeatureCard.addEventListener('click', async () => {
+        if (!isLazyScrollActive) {
+            try {
+                const localCamera = await setupMediaPipeCamera(); // Use local var
+                await localCamera.start();
+                console.log("Camera started for Lazy Scroll");
+                isLazyScrollActive = true;
+                lazyScrollFeatureCard.classList.add('active');
+                lazyScrollFeatureCard.querySelector('h3').textContent = 'Lazy Scroll Active 🖐️';
+                disableLazyScrollButton.style.display = 'block'; // Show disable button
+            } catch (error) {
+                console.error('Camera access denied or error:', error);
+                alert('Camera access is required for lazy scrolling. Please ensure permission is granted.');
+                isLazyScrollActive = false;
+                lazyScrollFeatureCard.classList.remove('active');
+                lazyScrollFeatureCard.querySelector('h3').textContent = 'Lazy Scroll Control 🖐️';
+                disableLazyScrollButton.style.display = 'none';
+            }
+        } else {
+            // This case should ideally be handled by the disable button
+            // but we can keep it as a fallback if card is clicked again
+            isLazyScrollActive = false;
+            if (mpCamera) {
+                mpCamera.stop();
+                console.log("Camera stopped");
+            }
+            lazyScrollFeatureCard.classList.remove('active');
+            lazyScrollFeatureCard.querySelector('h3').textContent = 'Lazy Scroll Control 🖐️';
+            disableLazyScrollButton.style.display = 'none';
+            handIndicator.classList.remove('detected');
+            lastHandY = 0;
+            accumulatedScroll = 0;
+        }
+    });
+
+    disableLazyScrollButton.addEventListener('click', () => {
+        isLazyScrollActive = false;
+        if (mpCamera) {
+            mpCamera.stop();
+            console.log("Camera stopped via disable button");
+        }
+        lazyScrollFeatureCard.classList.remove('active');
+        lazyScrollFeatureCard.querySelector('h3').textContent = 'Lazy Scroll Control 🖐️';
+        disableLazyScrollButton.style.display = 'none';
+        handIndicator.classList.remove('detected');
+        lastHandY = 0;
+        accumulatedScroll = 0;
+    });
+
+
+    // --- Initial Setup ---
+    window.onload = function () {
+        window.scrollTo(0, 0); // Scroll to top on page load
+    };
+
+    </script>
+</body>
+</html>

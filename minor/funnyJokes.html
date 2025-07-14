@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Enjoy a new joke every day with EchoHeart's Joke of the Day page.">
+    <title>Daily Joke - EchoHeart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #E6E6FA;
+            --color-secondary: #FFDAB9;
+            --color-accent: #B76E79;
+            --color-text: #5A5A5A;
+            --color-background: #F0F8FF;
+            --color-white: #FFFFFF;
+            --font-primary: 'Nunito', sans-serif;
+            --border-radius: 15px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--color-accent);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header {
+            background-color: var(--color-primary);
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        .logo i {
+            margin-right: 8px;
+            color: var(--color-secondary);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--color-text);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--color-accent);
+        }
+
+        #quote-section {
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .quote-container {
+            background-color: var(--color-secondary);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 6;
+        }
+
+        .quote-text {
+            font-size: 24px;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--color-text);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background-color: var(--color-accent);
+            color: var(--color-white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background-color: #984b56;
+        }
+
+        footer {
+            background-color: var(--color-text);
+            color: var(--color-background);
+            text-align: center;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: var(--color-secondary);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .emoji {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            animation: fall 7s linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2em;
+            }
+
+            header .container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            nav ul {
+                margin-top: 10px;
+                padding-left: 0;
+            }
+
+            nav ul li {
+                margin: 0 10px;
+            }
+
+            .quote-container {
+                padding: 20px;
+            }
+
+            .emoji {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="#" class="logo" aria-label="EchoHeart Home"><i class="fas fa-heart-pulse"></i>EchoHeart</a>
+            <nav aria-label="Main navigation">
+                <ul>
+                    <li><a href="index.html">Go Back Home</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="quote-section" aria-labelledby="joke-heading">
+            <div class="container">
+                <h1 id="joke-heading">Joke of the Day 😜</h1>
+                <div class="quote-container">
+                    <div class="quote-text" id="quote"></div>
+                    <div class="button-group">
+                        <button class="nav-btn" id="nextBtn" onclick="showNextJoke()">Next</button>
+                    </div>
+                    <p id="endMessage" style="display:none; font-weight: bold; margin-top: 20px; color: var(--color-accent);">
+                        That's all for today! Come back tomorrow for more jokes.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 EchoHeart. All rights reserved. ❤️</p>
+            <p>
+                <a href="#">About EchoHeart</a> |
+                <a href="#">Privacy Policy</a> |
+                <a href="#">Contact Us</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const jokes = [
+            "Why did the scarecrow become a motivational speaker? Because he was outstanding in his field!",
+            "What do you call a bear with no socks on? Barefoot!",
+            "Why can't basketball players go on vacation? Because they would get called for traveling!",
+            "What do you call cheese that isn't yours? Nacho cheese!",
+            "Why did the math book look sad? Because it had too many problems!",
+            "How does a penguin build its house? Igloos it together!",
+            "Why don't eggs tell jokes? They'd crack up!",
+            "What do you call a dinosaur that takes care of its teeth? A Flossiraptor!",
+            "Why did the tomato turn red? Because it saw the salad dressing!",
+            "What do you call a sleeping bull? A bulldozer!"
+        ];
+
+        // Get day of year
+        function getDayOfYear() {
+            const now = new Date();
+            const start = new Date(now.getFullYear(), 0, 0);
+            const diff = now - start;
+            const oneDay = 1000 * 60 * 60 * 24;
+            return Math.floor(diff / oneDay);
+        }
+
+        // Shuffle jokes
+        function getShuffledJokes(seed) {
+            const arr = jokes.slice();
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = (seed + i * 31) % arr.length;
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr.slice(0, 5);
+        }
+
+        const day = getDayOfYear();
+        const jokeBatch = getShuffledJokes(day);
+        let currentIndex = 0;
+
+        function updateJokeDisplay() {
+            document.getElementById('quote').textContent = jokeBatch[currentIndex];
+        }
+
+        function showNextJoke() {
+            currentIndex++;
+            if (currentIndex < jokeBatch.length) {
+                updateJokeDisplay();
+            } else {
+                document.getElementById('quote').style.display = 'none';
+                document.getElementById('nextBtn').style.display = 'none';
+                document.getElementById('endMessage').style.display = 'block';
+            }
+        }
+
+        // Initialize
+        updateJokeDisplay();
+        document.getElementById('endMessage').style.display = 'none';
+
+        // Emoji rain
+        const emojis = ['😁', '😎', '😂', '🌟', '💖'];
+        function createFallingEmoji() {
+            const emoji = document.createElement('div');
+            emoji.className = 'emoji';
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = `${Math.random() * 100}vw`;
+            emoji.style.top = '-10vh';
+            document.body.appendChild(emoji);
+            setTimeout(() => emoji.remove(), 7000);
+        }
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createFallingEmoji, i * 100);
+        }
+        setInterval(createFallingEmoji, 300);
+    </script>
+</body>
+</html>
+

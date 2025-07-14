@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #E6E6FA;
+            --color-secondary: #FFDAB9;
+            --color-accent: #B76E79;
+            --color-text: #5A5A5A;
+            --color-background: #F0F8FF;
+            --font-primary: 'Nunito', sans-serif;
+            --border-radius: 15px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--color-accent);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header {
+            background-color: var(--color-primary);
+            padding: 20px 0; /* Reduced header size */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 1.6em; /* Adjusted slightly */
+            margin-right: 8px;
+            color: var(--color-secondary);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--color-text);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--color-accent);
+        }
+
+        .note-form {
+            background-color: var(--color-secondary);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: var(--border-radius);
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: var(--color-accent);
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #984b56;
+        }
+
+        .note {
+            background-color: var(--color-primary);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+        }
+
+        .note strong {
+            font-size: 1.2em;
+            color: var(--color-accent);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="#" class="logo" aria-label="EchoHeart Home">
+                <i class="fas fa-heart-pulse"></i> EchoHeart
+            </a>
+            <nav aria-label="Main navigation">
+                <ul>
+                    <li><a href="index.html">Go Back Home</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Secret Keeper 📜</h1>
+        <div class="note-form">
+            <input type="text" id="noteTitle" placeholder="Enter heading...">
+            <textarea id="noteContent" placeholder="Write your note here..."></textarea>
+            <button onclick="saveNote()">Save Note</button>
+        </div>
+        <h2>Saved Notes:</h2>
+        <div id="savedNotes"></div>
+    </div>
+
+    <script>
+        function saveNote() {
+            let title = document.getElementById('noteTitle').value.trim();
+            let content = document.getElementById('noteContent').value.trim();
+            if (!title || !content) return;
+
+            let notes = JSON.parse(localStorage.getItem('notes')) || [];
+            notes.push({ title, content, timestamp: new Date().toLocaleString() });
+            localStorage.setItem('notes', JSON.stringify(notes));
+
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('noteContent').value = '';
+            displayNotes();
+        }
+
+        function editNote(index) {
+            let notes = JSON.parse(localStorage.getItem('notes')) || [];
+            document.getElementById('noteTitle').value = notes[index].title;
+            document.getElementById('noteContent').value = notes[index].content;
+            notes.splice(index, 1);
+            localStorage.setItem('notes', JSON.stringify(notes));
+            displayNotes();
+        }
+
+        function deleteNote(index) {
+            let notes = JSON.parse(localStorage.getItem('notes')) || [];
+            notes.splice(index, 1);
+            localStorage.setItem('notes', JSON.stringify(notes));
+            displayNotes();
+        }
+
+        function displayNotes() {
+            let notes = JSON.parse(localStorage.getItem('notes')) || [];
+            let notesContainer = document.getElementById('savedNotes');
+            notesContainer.innerHTML = notes.length ? notes.map((note, index) => 
+                `<div class="note">
+                    <strong>${note.title}</strong> (${note.timestamp})<br>${note.content}
+                    <br>
+                    <button onclick="editNote(${index})">Edit</button>
+                    <button onclick="deleteNote(${index})">Delete</button>
+                </div>`).join('') : "No saved notes.";
+        }
+
+        window.onload = displayNotes;
+    </script>
+</body>
+</html>

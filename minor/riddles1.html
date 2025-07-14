@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>EchoHeart Riddles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --color-primary: #E6E6FA;
+            --color-secondary: #FFDAB9;
+            --color-accent: #B76E79;
+            --color-text: #5A5A5A;
+            --color-background: #F0F8FF;
+            --color-white: #FFFFFF;
+            --font-primary: 'Nunito', sans-serif;
+            --border-radius: 15px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background-color: var(--color-primary);
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        .logo i {
+            margin-right: 8px;
+            color: var(--color-secondary);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--color-text);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--color-accent);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--color-accent);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .riddle-box {
+            background-color: var(--color-secondary);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .riddle-box p {
+            margin-bottom: 15px;
+            color: var(--color-text);
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-top: 15px;
+            font-family: var(--font-primary);
+            font-size: 1em;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: var(--color-accent);
+            color: var(--color-white);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        button:hover {
+            background-color: #964d57;
+        }
+
+        footer {
+            background-color: var(--color-text);
+            color: var(--color-background);
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        footer a {
+            color: var(--color-secondary);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .riddle-box {
+                font-size: 18px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="#" class="logo"><i class="fas fa-heart-pulse"></i>EchoHeart</a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Go Back Home</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="container" id="riddle-section"></section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 EchoHeart. All rights reserved. ❤️</p>
+            <p>
+                <a href="#">About EchoHeart</a> |
+                <a href="#">Privacy Policy</a> |
+                <a href="#">Contact Us</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const riddles = [
+            { question: "What has to be broken before you can use it?", answer: "egg", synonyms: ["eggshell"] },
+            { question: "I’m tall when I’m young, and I’m short when I’m old. What am I?", answer: "candle", synonyms: ["wax candle", "taper"] },
+            { question: "What month of the year has 28 days?", answer: "all", synonyms: ["every month", "all months"] },
+            { question: "What is full of holes but still holds water?", answer: "sponge", synonyms: ["sea sponge", "porous material"] },
+            { question: "What question can you never answer yes to?", answer: "are you sleeping", synonyms: ["are you asleep", "are you dreaming"] },
+            { question: "What is always in front of you but can’t be seen?", answer: "future", synonyms: ["the future", "tomorrow"] },
+            { question: "There’s a one-story house in which everything is yellow. What color are the stairs?", answer: "there are no stairs", synonyms: ["no stairs", "none", "it's a one-story house"] },
+            { question: "What can you break, even if you never pick it up or touch it?", answer: "promise", synonyms: ["vow", "oath", "pledge"] },
+            { question: "What goes up but never comes down?", answer: "age", synonyms: ["your age", "aging"] },
+            { question: "A man who was outside in the rain without an umbrella didn’t get a single hair on his head wet. Why?", answer: "he was bald", synonyms: ["bald", "no hair", "he's bald"] },
+            { question: "What has keys but can't open locks?", answer: "piano", synonyms: ["keyboard", "pianoforte"] },
+            { question: "What can travel around the world while staying in a corner?", answer: "stamp", synonyms: ["postage stamp", "mail stamp"] }
+        ];
+
+        let currentIndex = 0;
+        let attempts = 0;
+        const section = document.getElementById("riddle-section");
+        let todayRiddles = []; // Will hold the riddles for the day
+
+        // Function to select and display a riddle
+        function showRiddle() {
+            if (todayRiddles.length === 0) {
+                todayRiddles = getRandomRiddles(); // Get new riddles if none are available
+                currentIndex = 0; // Reset index to start from the first riddle
+            }
+
+            const riddle = todayRiddles[currentIndex];
+            section.innerHTML = `
+                <h1>Riddle ${currentIndex + 1} of ${todayRiddles.length}</h1>
+                <div class="riddle-box">
+                    <p><strong>Q:</strong> ${riddle.question}</p>
+                    <input type="text" id="userAnswer" placeholder="Your answer..." />
+                    <br>
+                    <button onclick="checkAnswer()">Submit</button>
+                    <p id="feedback" style="margin-top:15px;"></p>
+                </div>
+            `;
+
+            // Listen for Enter key
+            document.getElementById("userAnswer").addEventListener("keypress", function (event) {
+                if (event.key === "Enter") {
+                    checkAnswer();
+                }
+            });
+        }
+
+
+        // Randomly pick a specified number of unique riddles
+        function getRandomRiddles(count = 3) {
+            const shuffled = [...riddles].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        // Function to normalize the user's answer for comparison
+        function normalizeAnswer(answer) {
+            return answer
+                .toLowerCase()
+                .replace(/[.,!?]/g, "")
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        // Function to check if the user's answer is correct
+        function isAnswerCorrect(userInput, correctAnswer, synonyms = []) {
+            const normalizedInput = normalizeAnswer(userInput);
+            const normalizedCorrect = normalizeAnswer(correctAnswer);
+            const normalizedSynonyms = synonyms.map(syn => normalizeAnswer(syn));
+
+            return (
+                normalizedInput === normalizedCorrect ||
+                normalizedSynonyms.includes(normalizedInput) ||
+                (normalizedInput.length > 3 &&
+                    (normalizedCorrect.includes(normalizedInput) ||
+                        normalizedSynonyms.some(syn => syn.includes(normalizedInput))))
+            );
+        }
+
+        // Function to handle the checking of the answer
+        function checkAnswer() {
+            const userInput = document.getElementById("userAnswer").value;
+            const riddle = todayRiddles[currentIndex];
+            const feedback = document.getElementById("feedback");
+
+            attempts++;
+            if (isAnswerCorrect(userInput, riddle.answer, riddle.synonyms)) {
+                feedback.innerHTML = `✅ Correct!<br><button onclick="nextRiddle()">Next Question</button>`;
+                attempts = 0; // Reset attempts counter after correct answer
+            } else if (attempts < 3) {
+                feedback.textContent = `❌ Incorrect. Try again. (${3 - attempts} attempts left)`;
+            } else {
+                feedback.innerHTML = `❌ Out of attempts. The correct answer was: <strong>${riddle.answer}</strong><br><button onclick="nextRiddle()">Next Question</button>`;
+                attempts = 0; // Reset attempts counter after too many attempts
+            }
+            document.getElementById("userAnswer").value = ''; // Clear input field after checking
+        }
+
+        // Function to proceed to the next riddle or finish the game
+        function nextRiddle() {
+            currentIndex++;
+            if (currentIndex < todayRiddles.length) {
+                showRiddle();
+            } else {
+                section.innerHTML = `
+                    <h1>🎉 You're done for today!</h1>
+                    <div class="riddle-box">Come back anytime for 3 new riddles!</div>
+                `;
+                todayRiddles = []; // Clear today's riddles.
+            }
+        }
+
+        // Initialize the game by showing the first riddle
+        showRiddle();
+    </script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Quote - EchoHeart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Global Styles & Variables --- */
+        :root {
+            --color-primary: #E6E6FA; /* Soft Lavender */
+            --color-secondary: #FFDAB9; /* Warm Peach */
+            --color-accent: #B76E79; /* Gentle Rose Gold */
+            --color-text: #5A5A5A;
+            --color-background: #F0F8FF; /* Alice Blue */
+            --color-white: #FFFFFF;
+            --font-primary: 'Nunito', sans-serif;
+            --border-radius: 15px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative; /* For absolute positioning of emojis */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--color-accent);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* --- Header --- */
+        header {
+            background-color: var(--color-primary);
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+        .logo i {
+            margin-right: 8px;
+            color: var(--color-secondary);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+        nav ul li {
+            margin-left: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--color-text);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: var(--color-accent);
+        }
+
+        /* --- Quote Section --- */
+        #quote-section {
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .quote-container {
+            background-color: var(--color-white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--color-secondary); /* Peach puff for quote box */
+            position: relative;
+            z-index: 6; /* Ensure quote box is above emojis */
+        }
+
+        .quote-text {
+            font-size: 24px;
+            font-style: italic;
+            margin-bottom: 10px;
+            color: var(--color-text);
+        }
+
+        .quote-author {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--color-accent);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--color-text);
+            color: var(--color-background);
+            text-align: center;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: var(--color-secondary);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Falling Emojis --- */
+        .emoji {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none; /* Prevent interaction with emojis */
+            animation: fall 7s linear forwards; /* Duration for full page fall */
+            z-index: 2; /* Below content */
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh); /* Start above viewport */
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh); /* Fall to bottom of viewport */
+                opacity: 0;
+            }
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2em;
+            }
+
+            header .container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            nav ul {
+                margin-top: 10px;
+                padding-left: 0;
+            }
+
+            nav ul li {
+                margin: 0 10px;
+            }
+
+            .quote-container {
+                padding: 20px;
+            }
+
+            .emoji {
+                font-size: 18px; /* Smaller emojis on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="#" class="logo"><i class="fas fa-heart-pulse"></i>EchoHeart</a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Go Back Home</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="quote-section">
+            <div class="container">
+                <h1>Daily Inspiration ✨</h1>
+                <div class="quote-container">
+                    <div class="quote-text" id="quote"></div>
+                    <div class="quote-author" id="author"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 EchoHeart. All rights reserved. ❤</p>
+            <p>
+                <a href="#">About EchoHeart</a> |
+                <a href="#">Privacy Policy</a> |
+                <a href="#">Contact Us</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Daily Quote Logic
+        const quotes = [
+            { text: " It's only when you have the courage to step off the ledge that you'll realize you've had wings all along."},
+            { text: "Trust is knowing that we're exactly where we are supposed to be in life, especially when it doesn't feel like it." },
+            { text: "The future belongs to those who believe in the beauty of their dreams." },
+            { text: " In every moment, you are the only one who gets to choose your attitude. Choose wisely."},
+            { text: "Who and what you are will be determined by you, not by your circumstances."},
+            { text: "Follow your passion. Listen to your heart. Trust the process. Be grateful. Life is magic and your dreams matter."},
+            { text: "Life is about right now in this very moment. Not tomorrow, not yesterday but NOW. Live it!"},
+            { text: "Having a great dream and belief in yourself is great, but nothing happens until you take action."},
+            { text: "Your words are simply the thoughts of yours that will become things the soonest."},
+            { text: "Refuse to be de!ned by someone else's vision of what's possible."},
+            { text: "If we aim high and fall short, we still achieve more than by aiming low and falling short."},
+            { text: "May you recognize the passion and the possibility in your day today and have the courage to follow it."},
+            { text: "Set your goals high and do something everyday to move forward."},
+            { text: "When was the last time worry ever solved a problem? Breathe and know that you are perfect in this moment."},
+            { text: "Limitations seem real when we lack faith and belief. With faith and belief, anything is possible."},
+            { text: "Today, be the person of your dreams. See and act from their eyes."},
+            { text: "Praise is one of the best, yet inexpensive gis we can give to others."},
+            { text: "Most times, regrets are things we didn't do, not those we did."},
+            { text: " Take the time today to be good to you, in thoughts, deeds and actions--but especially in your thoughts."},
+            { text: " Remember, perspective can cause two people to look at the same thing and see two totally different things."},
+            { text: "Focus on the WHY of life and not the HOW, remembering that where focus goes, energy %ows."},
+            { text: "Nothing has the power to radically change a life more than an attitude adjustment."},
+            { text: "To achieve your dream, see the world as you want it to be, not as it may appear to be."},
+            { text: "We make room for love when we !rst invite understanding into our hearts." },
+            { text: "Play and don't take yourself or the world so seriously. Create reasons to laugh!"},
+            { text: " Take time each day to connect to the Divine. Trust that there is a plan even if you only see a fraction of it." },
+            { text: "Go make your life the one you have always wanted, knowing you have the power to make it happen." }
+        ];
+
+        function getDayOfYear() {
+            const now = new Date();
+            const start = new Date(now.getFullYear(), 0, 0);
+            const diff = now - start;
+            const oneDay = 1000 * 60 * 60 * 24;
+            return Math.floor(diff / oneDay);
+        }
+
+        function displayDailyQuote() {
+            const dayOfYear = getDayOfYear();
+            const quoteIndex = dayOfYear % quotes.length;
+            const dailyQuote = quotes[quoteIndex];
+            document.getElementById("quote").textContent =  dailyQuote.text ;
+        }
+
+        displayDailyQuote();
+
+        // Falling Emojis Logic
+        const emojis = ['💪', '😎', '🐧', '🌟', '💖'];
+        function createFallingEmoji() {
+            const emoji = document.createElement('div');
+            emoji.className = 'emoji';
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = `${Math.random() * 100}vw`; // Random horizontal position across viewport
+            emoji.style.top = '-10vh'; // Start above viewport
+            document.body.appendChild(emoji);
+
+            // Remove emoji after animation
+            setTimeout(() => {
+                emoji.remove();
+            }, 8000); // Matches animation duration
+        }
+
+        // Create initial burst of emojis on page load
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createFallingEmoji, i * 100); // Staggered start for natural effect
+        }
+
+        // Create emojis every 300ms for continuous flow
+        setInterval(createFallingEmoji, 300);
+    </script>
+</body>
+</html>
